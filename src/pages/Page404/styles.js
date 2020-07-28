@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Page404 = styled.div`
   background: var(--black);
+  min-height: 100vh;
   display: flex;
   flex: column;
   align-items: center;
