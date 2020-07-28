@@ -1,28 +1,33 @@
 import React from 'react';
-import { FooterBase } from './styles';
+import { FooterBase, FooterLink } from './styles';
+import * as imgLogo from '../../assets/logodegracaflix.png';
+import { LogoImage } from '../Menu/style';
 
 function Footer() {
   return (
     <FooterBase>
       <a href="https://www.alura.com.br/">
-        <img
+        <LogoImage src={imgLogo} alt="Logotipo" />
+        {/* <img
           src="https://www.alura.com.br/assets/img/alura-logo-white.1570550707.svg"
           alt="Logo Alura"
-        />
+        /> */}
       </a>
       <span>
         Orgulhosamente criado durante a{' '}
-        <a href="https://www.alura.com.br/">Imersão React da Alura</a>
+        <FooterLink href="https://www.alura.com.br/">
+          Imersão React da Alura
+        </FooterLink>
       </span>
       <span>
-        Desenvolvida por{' '}
-        <a
+        Desenvolvido por{' '}
+        <FooterLink
           href="https://www.linkedin.com/in/ademir-rodrigues-da-silva-517a0b65/"
           target="_blank"
           rel="noopener noreferrer"
         >
           Ademir R. da Silva
-        </a>
+        </FooterLink>
       </span>
     </FooterBase>
   );
