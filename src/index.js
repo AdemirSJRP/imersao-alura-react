@@ -5,6 +5,7 @@ import './index.css';
 import Home from './pages/Home';
 import styled from 'styled-components';
 import CadastroVideo from './pages/cadastro/Video';
+import CadastroCategoria from './pages/cadastro/Categoria';
 
 const Page404 = styled.h1`
   display: flex;
@@ -17,6 +18,7 @@ ReactDOM.render(
     <Switch>
       <Route path="/" component={Home} exact />
       <Route path="/cadastro/video" component={CadastroVideo} exact />
+      <Route path="/cadastro/categoria" component={CadastroCategoria} exact />
       <Route
         component={() => (
           <div>

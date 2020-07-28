@@ -25,6 +25,13 @@ a {
   color: inherit;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: between;
+  min-height: calc(100vh - var(--bodyPaddingTop));
+}
+
 body {
   --bodyPaddingTop: 94px;
   padding-top: var(--bodyPaddingTop);
