@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import FormField from '../../../components/FormField';
-import Button from '../../../components/Button';
 import PageCadastro from '../../../components/PageCadastro';
+import ButtonDark from '../../../components/ButtonDark/style';
 
 const FormInputContainer = styled.form`
   display: flex;
@@ -51,6 +51,7 @@ export default function CadastroCategoria() {
           type="text"
           value={nome}
           onChange={handleChange}
+          autofocus
         />
         <FormField
           label="Descrição"
@@ -66,7 +67,7 @@ export default function CadastroCategoria() {
           value={cor}
           onChange={handleChange}
         />
-        <Button>Cadastrar</Button>
+        <ButtonDark>Cadastrar</ButtonDark>
       </FormInputContainer>
       <ul>
         {categorias.map((categoria, i) => (
