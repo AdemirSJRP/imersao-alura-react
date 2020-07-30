@@ -27,7 +27,11 @@ export default function CadastroCategoria() {
 
   useEffect(() => {
     async function getData() {
-      var data = await fetch('http://localhost:8080/categorias');
+      var data = await fetch(
+        window.location.hostname.includes('localhost')
+          ? 'http://localhost:8080/categorias'
+          : 'https://degracaflix.herokuapp.com/categorias'
+      );
       var categorias = await data.json();
       setCategorias([...categorias]);
     }
