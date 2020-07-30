@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import FormField from '../../../components/FormField';
@@ -6,7 +6,7 @@ import PageCadastro from '../../../components/PageCadastro';
 import ButtonDark from '../../../components/ButtonDark/style';
 
 const FormInputContainer = styled.form`
-  display: flex;
+  display: block;
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
@@ -24,6 +24,15 @@ export default function CadastroCategoria() {
 
   const [categoria, setCategoria] = useState(valoresIniciais);
   const [categorias, setCategorias] = useState([]);
+
+  useEffect(() => {
+    async function getData() {
+      var data = await fetch('http://localhost:8080/categorias');
+      var categorias = await data.json();
+      setCategorias([...categorias]);
+    }
+    getData();
+  }, []);
 
   const setFieldValue = (fieldName, value) => {
     setCategoria({ ...categoria, [fieldName]: value });
@@ -48,10 +57,9 @@ export default function CadastroCategoria() {
         <FormField
           label="Nome da Categoria"
           name="nome"
-          type="text"
           value={nome}
           onChange={handleChange}
-          autofocus
+          autofocus={true}
         />
         <FormField
           label="Descrição"
@@ -69,6 +77,7 @@ export default function CadastroCategoria() {
         />
         <ButtonDark>Cadastrar</ButtonDark>
       </FormInputContainer>
+      {categorias.length === 0 && <div>Carregando categorias...</div>}
       <ul>
         {categorias.map((categoria, i) => (
           <li key={`${categoria}${i}`}>

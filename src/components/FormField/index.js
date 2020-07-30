@@ -1,81 +1,108 @@
 import React from 'react';
-import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import styled, { css } from 'styled-components';
 
-const Label = styled.label`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: start;
-  margin-top: 20px;
-  width: 100%;
-  background: white;
-  padding: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  transition: opacity 0.3s;
-  & > input[type='text'],
-  > textarea {
-    width: 100%;
-    max-width: 100%;
-    border: none;
-    &:focus {
-      outline: 0;
-    }
+const FormFieldWrapper = styled.div`
+  position: relative;
+  textarea {
+    min-height: 150px;
+  }
+  input[type='color'] {
+    padding-left: 56px;
   }
 `;
 
-export default function FormField({
-  label,
-  type,
-  name,
-  value,
-  autofocus,
-  onChange,
-}) {
-  const handleChange = (event) => {
-    onChange(event);
-  };
+const Label = styled.label``;
 
-  const handleBlur = (event) => {
-    document
-      .getElementById(`label-${event.target.name}`)
-      .setAttribute('style', 'box-shadow: none;');
-  };
+Label.Text = styled.span`
+  color: #e5e5e5;
+  height: 57px;
+  position: absolute;
+  top: 0;
+  left: 16px;
 
-  const handleFocus = (event) => {
-    document
-      .getElementById(`label-${event.target.name}`)
-      .setAttribute(
-        'style',
-        'box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); '
-      );
-  };
+  display: flex;
+  align-items: center;
 
-  const input =
-    type === 'textarea' ? (
-      <textarea
-        name={name}
-        value={value}
-        autoFocus={autofocus}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
-    ) : (
-      <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={handleChange}
-        autoFocus={autofocus}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
+  transform-origin: 0% 0%;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 300;
+
+  transition: 0.1s ease-in-out;
+`;
+
+const Input = styled.input`
+  background: #53585d;
+  color: #f5f5f5;
+  display: block;
+  width: 100%;
+  height: 57px;
+  font-size: 18px;
+
+  outline: 0;
+  border: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid #53585d;
+
+  padding: 16px 16px;
+  margin-bottom: 45px;
+
+  resize: none;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-bottom-color: var(--primary);
+  }
+  &:focus:not([type='color']) + ${Label.Text} {
+    transform: scale(0.6) translateY(-10px);
+  }
+  ${({ value }) => {
+    const hasValue = value.length > 0;
+    return (
+      hasValue &&
+      css`
+        &:not([type='color']) + ${Label.Text} {
+          transform: scale(0.6) translateY(-10px);
+        }
+      `
     );
+  }}
+`;
+
+function FormField({ label, type, name, value, autofocus, onChange }) {
+  const isTypeTextArea = type === 'textarea';
+  const tag = isTypeTextArea ? 'textarea' : 'input';
 
   return (
-    <Label id={`label-${name}`}>
-      {label}:{input}
-    </Label>
+    <FormFieldWrapper>
+      <Label>
+        <Input
+          as={tag}
+          type={type}
+          value={value}
+          name={name}
+          autoFocus={autofocus}
+          onChange={onChange}
+        />
+        <Label.Text>{label}:</Label.Text>
+      </Label>
+    </FormFieldWrapper>
   );
 }
+
+FormField.defaultProps = {
+  type: 'text',
+  value: '',
+};
+
+FormField.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
+
+export default FormField;
