@@ -1,53 +1,44 @@
-import React from 'react';
-import styled from 'styled-components';
-import Menu from '../../components/Menu';
-import dadosIniciais from '../../data/dados_iniciais.json';
+import React, { useEffect, useState } from 'react';
 import BannerMain from '../../components/BannerMain';
 import Carousel from '../../components/Carousel';
-import Footer from '../../components/Footer';
-
-const AppWrapper = styled.div`
-  background: var(--grayDark);
-
-  body {
-    --bodyPaddingTop: 94px;
-    padding-top: var(--bodyPaddingTop);
-  }
-  @media (max-width: 800px) {
-    body {
-      --bodyPaddingTop: 40px;
-      padding-top: var(--bodyPaddingTop);
-    }
-  }
-`;
+import categoriasRepository from '../../repositories/categorias';
+import PageDefault from '../../components/PageDefault';
 
 function Home() {
+  const [categorias, setCategorias] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        var newCategorias = await categoriasRepository.getAllWithVideos();
+        setCategorias([...newCategorias]);
+        console.log('categorias', newCategorias);
+      } catch (error) {
+        console.error(error);
+        setCategorias([]);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
-    <AppWrapper>
-      <Menu />
-
-      <BannerMain
-        videoTitle={dadosIniciais.categorias[0].videos[0].titulo}
-        url={dadosIniciais.categorias[0].videos[0].url}
-        videoDescription={
-          'O que é Front-end? Trabalhando na área os termos HTML, CSS e JavaScript fazem parte da rotina das desenvolvedoras e desenvolvedores. Mas o que eles fazem, afinal? Descubra com a Vanessa!'
-        }
-      />
-
-      <Carousel ignoreFirstVideo category={dadosIniciais.categorias[0]} />
-
-      <Carousel category={dadosIniciais.categorias[1]} />
-
-      <Carousel category={dadosIniciais.categorias[2]} />
-
-      <Carousel category={dadosIniciais.categorias[3]} />
-
-      <Carousel category={dadosIniciais.categorias[4]} />
-
-      <Carousel category={dadosIniciais.categorias[5]} />
-
-      <Footer />
-    </AppWrapper>
+    <PageDefault paddingAll={0}>
+      {categorias.length === 0 && <h4>Carregando categorias...</h4>}
+      {categorias.map((categoria, i) => (
+        <div key={categoria.id}>
+          {i === 0 && (
+            <BannerMain
+              videoTitle={categoria.videos[0].titulo}
+              url={categoria.videos[0].url}
+              videoDescription={
+                'O que é Front-end? Trabalhando na área os termos HTML, CSS e JavaScript fazem parte da rotina das desenvolvedoras e desenvolvedores. Mas o que eles fazem, afinal? Descubra com a Vanessa!'
+              }
+            />
+          )}
+          <Carousel ignoreFirstVideo={i === 0} category={categoria} />
+        </div>
+      ))}
+    </PageDefault>
   );
 }
 

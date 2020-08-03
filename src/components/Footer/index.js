@@ -3,9 +3,9 @@ import { FooterBase, FooterLink } from './styles';
 import * as imgLogo from '../../assets/logodegracaflix.png';
 import { LogoImage } from '../Menu/style';
 
-function Footer() {
+function Footer({ marginBottom = 50 }) {
   return (
-    <FooterBase>
+    <FooterBase marginBottom={marginBottom}>
       <a href="https://www.alura.com.br/">
         <LogoImage src={imgLogo} alt="Logotipo" />
         {/* <img

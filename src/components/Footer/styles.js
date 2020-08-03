@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const FooterBase = styled.footer`
   font-size: 14px;
@@ -12,9 +12,14 @@ export const FooterBase = styled.footer`
   & > a {
     color: red;
   }
-  @media (max-width: 800px) {
+  /* @media (max-width: 800px) {
     margin-bottom: 50px;
-  }
+  } */
+  ${({ marginBottom }) => css`
+    @media (max-width: 800px) {
+      margin-bottom: ${marginBottom}px;
+    }
+  `}
 `;
 export const FooterLink = styled.a`
   font-weight: bold;

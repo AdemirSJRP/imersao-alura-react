@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ButtonDark = styled.a`
+const ButtonDark = styled.button`
   color: var(--grayLight);
   background-color: var(--primary);
   border: 1px solid var(--grayLight);

@@ -71,10 +71,28 @@ const Input = styled.input`
   }}
 `;
 
-function FormField({ label, type, name, value, autofocus, onChange }) {
+const FormInputContainer = styled.form`
+  display: block;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  & > a {
+    margin-top: 20px;
+  }
+`;
+
+function FormField({
+  label,
+  type,
+  name,
+  value,
+  autofocus,
+  onChange,
+  selectOptions,
+}) {
   const isTypeTextArea = type === 'textarea';
   const tag = isTypeTextArea ? 'textarea' : 'input';
-
+  const hasSelectOptions = Boolean(selectOptions);
   return (
     <FormFieldWrapper>
       <Label>
@@ -85,8 +103,17 @@ function FormField({ label, type, name, value, autofocus, onChange }) {
           name={name}
           autoFocus={autofocus}
           onChange={onChange}
+          autoComplete={hasSelectOptions ? 'off' : 'on'}
+          list={hasSelectOptions ? `_datalistId${name}` : undefined}
         />
         <Label.Text>{label}:</Label.Text>
+        {hasSelectOptions && (
+          <datalist id={`_datalistId${name}`}>
+            {selectOptions.map((option) => (
+              <option key={option} value={option} />
+            ))}
+          </datalist>
+        )}
       </Label>
     </FormFieldWrapper>
   );
@@ -95,6 +122,8 @@ function FormField({ label, type, name, value, autofocus, onChange }) {
 FormField.defaultProps = {
   type: 'text',
   value: '',
+  onChange: () => {},
+  selectOptions: [],
 };
 
 FormField.propTypes = {
@@ -103,6 +132,7 @@ FormField.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  selectOptions: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default FormField;
+export { FormField, FormInputContainer };
